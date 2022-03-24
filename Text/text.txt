@@ -1,0 +1,266 @@
+Spaceship s1;
+PImage img;
+ArrayList<Rock> rocks = new ArrayList<Rock>();
+ArrayList<Laser> lasers = new ArrayList<Laser>();
+Timer rockTimer;
+Timer soundStop;
+import processing.sound.*;
+SoundFile laser;
+int score;
+int level;
+PImage startScreen;
+boolean play;
+
+
+void setup() {
+  size(1000, 1000);
+  s1 = new Spaceship();
+  rockTimer = new Timer(1000);
+  rockTimer.start();
+  soundStop = new Timer(1300);
+  laser = new SoundFile(this, "superidol.mp3");
+  img = loadImage("square.png");
+  //image(background,1000,1000,1000,1000);
+}
+
+void draw() {
+  //background(img);
+  if (!play) {
+    startScreen();
+  } else {
+    background(0);
+    img.resize(1000, 1000);
+    imageMode(CORNER);
+    image(img, 0, 0);
+    infoPanel();
+
+
+    s1.display(mouseX, 930);
+    if (rockTimer.isFinished()) {
+      rocks.add(new Rock(int(random(width)), -50));
+      rockTimer.start();
+    }
+
+    if (soundStop.isFinished()) {
+      laser.stop();
+    }
+
+
+    // render rocks and detect ship collision
+    for (int i = 0; i < rocks.size(); i++) {
+      Rock rock = rocks.get(i);
+      rock.display();
+      rock.move();
+    }
+    // render lasers and detect rock collision
+    for (int i = lasers.size() - 1; i >= 0; i--) {
+      Laser laser = (Laser) lasers.get(i);
+      for (int j=0; j<rocks.size(); j++) {
+        Rock rock = rocks.get(j);
+        if (laser.intersect(rock)) {
+          lasers.remove(laser);
+          rock.diam-=50;
+          score+=50;
+          if (rock.diam<10) {
+            rocks.remove(rock);
+            score+=rock.health;
+          }
+        }
+      }
+      laser.fire();
+      laser.display();
+      if (laser.reachedTop()) {
+        lasers.remove(laser);
+      }
+    }
+  }
+}
+
+void infoPanel() {
+  fill(127, 127);
+  rectMode(CORNER);
+  rect(0, 0, width, 50);
+  fill(255);
+  textAlign(CENTER);
+  textSize(30);
+  text("Score: " + score + " Level: " + level + " Health: " + s1.health + " Ammo: " + s1.laserCount, width/2, 40);
+}
+
+
+void mousePressed() {
+  lasers.add(new Laser(s1.x, s1.y-100));
+  s1.laserCount--;
+  laser.play();
+  soundStop.start();
+}
+
+void keyPressed() {
+  println(key);
+  println(keyCode);
+  if (key == ' ') {
+    lasers.add(new Laser(s1.x-30, s1.y));
+    lasers.add(new Laser(s1.x+30, s1.y));
+  }
+}
+
+void startScreen() {
+  background(74, 230, 12); // load a graphic
+  textAlign(CENTER);
+  textSize(40);
+  fill(255);
+  text("Space Game", width/2, height/2-200);
+  text("By Corey", width/2, (height/2)-100);
+  text("Click Anywhere To Start", width/2, (height/2)+200);
+  if (mousePressed) {
+    play = true;
+  }
+}
+
+class Laser {
+  int x, y, w, speed;
+  PImage laser;
+
+  Laser(int x, int y) {
+    this.x = x;
+    this.y = y;
+    w = 10;
+    speed = 10;
+    laser = loadImage("greenarrow.png");
+  }
+
+  void fire() {
+    y-=speed;
+  }
+
+  void display() {
+    laser.resize(100, 100);
+    imageMode(CENTER);
+    image(laser, x, y);
+  }
+
+  boolean reachedTop() {
+    if (y<-50) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  boolean intersect(Rock r) {
+    float distance = dist(x, y, r.x, r.y);
+    if (distance < 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class Rock {
+  //Member Variables
+  int x, y, w, h, speed, diam, health;
+  PImage r1;
+  int rand;
+
+
+  //Constructor
+  Rock(int x, int y) {
+    this.x = x;
+    this.y = y;
+    w = 100;
+    h = 100;
+
+    speed = int(random(2, 10));
+    diam = int(random(10, 35));
+    health = diam;
+    rand = int(random(1, 3));
+    if (rand == 1) {
+      r1 = loadImage("taiwan.png");
+    } else if (rand == 2) {
+      r1 = loadImage("redarrow.png");
+    }
+  }
+  void display() {
+    r1.resize(100, 100);
+    imageMode(CENTER);
+
+    image(r1, x, y);
+  }
+
+  void move() {
+    y+=speed;
+  }
+
+  boolean reachedBottom() {
+    if (y>height+50) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  boolean intersect(Spaceship s) {
+    float distance = dist(x, y, s.x, s.y);
+    if (distance < w/2 + s.w) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class Spaceship {
+  int x, y, w, health, laserCount;
+  PImage ship;
+
+  Spaceship() {
+    x = 0;
+    y = 0;
+    w = 80;
+    health = 100;
+    ship = loadImage("johnxina.png");
+  }
+
+  void display(int tempX, int tempY) {
+    x = tempX;
+    y =  tempY;
+    imageMode(CENTER);
+    ship.resize(200, 150);
+    image(ship, x, y);
+  }
+
+  void move() {
+  }
+
+  boolean fire() {
+    if (laserCount>0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class Star {
+  int x, y, diam, speed;
+
+
+
+  Star() {
+    x = int(random(width));
+    y = -10;
+    diam = int(random(1, 5));
+    speed = int(random(1, 10));
+  }
+
+  void display() {
+  }
+
+  void move() {
+  }
+
+  boolean reachedBottom() {
+    return true;
+  }
+}
