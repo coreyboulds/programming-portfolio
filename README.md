@@ -18,13 +18,11 @@ OOP solution for a collisoion based 2d shooter
 ![cars code](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/Text/igjuyg%20text.txt)
 
 ### Calculator
-![calculator screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.43.55%20PM.png)
+![calculator screenshot]()
 ![calculator code](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/Text/zxcvhjkl%20text.txt)
 
 
 ## Java projects 
 
-### final project 
-![final screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/2048.png)
-![final code]()
+### 
 
