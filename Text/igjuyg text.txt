@@ -1,0 +1,63 @@
+void setup() {
+  size(1000, 1000);
+  for (int i=0; i<cars.length; i++) {
+    cars[i] = new Car(random(width), random(height));
+  }
+}
+
+
+void draw() {
+  background(255);
+  for (int i=0; i<cars.length; i++) {
+
+    cars[i].display();
+    cars[i].move();
+  }
+}
+
+class Car {
+  //member variables
+  color c;
+  float x, y, speed;
+  boolean right;
+  //constructor
+  Car(float tempX, float tempY) {
+    x = tempX;
+    y = tempY;
+    c = color(random(255), random(255), random(255));
+    speed = random(1, 6);
+    if (int(random(2))==0) {
+      right = true;
+    } else {
+      right = false;
+    }
+  }
+
+
+  //display method
+
+  void display() {
+    fill(0);
+    rect(x+5, y-3, 8, 4);
+    rect(x+5, y+9, 8, 4);
+    rect(x+18, y-3, 8, 4);
+    rect(x+18, y+9, 8, 4);
+    fill(c);
+    rect(x, y, 30, 10);
+  }
+
+  //drive method
+  void move() {
+    if (right) {
+      x  += speed;
+      if (x > width) {
+        x = 0;
+      }
+    } else {
+      x -= speed;
+      if (x<0) {
+        x = width;
+      }
+    }
+  }
+}
