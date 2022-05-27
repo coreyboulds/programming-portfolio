@@ -7,7 +7,7 @@ Computer Programming 1 which focused on processing and Java.
 ### Spacegame
 OOP solution for a collisoion based 2d shooter
 * ![Screen capture of running application](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/spacegame.png?raw=true)
-* ![Source code for application](Text/kgiug text.txt)
+* [Source code for application](Text/kgiug text.txt)
 
 * ![screensaver screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.11.56%20PM.png?raw=true)
 
