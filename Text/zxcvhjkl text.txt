@@ -1,0 +1,219 @@
+/ globals
+Button[] numButtons = new Button[10];
+Button[]opButtons = new Button [14];
+String dVal;
+String op;
+boolean left;
+float r;
+float l;
+float result;
+
+
+void setup() {
+  size(200, 250); // compact
+  dVal ="0";
+  op = "";
+  left = true;
+  r = 0.0;
+  l = 0.0;
+  numButtons[0] = new Button(40, 230, 80, 40, "0", #FFFDFC, #2AF50C);
+
+  numButtons[1] = new Button(20, 110, 40, 40, "7", #FFFDFC, #2AF50C);
+  numButtons[2] = new Button(60, 110, 40, 40, "8", #FFFDFC, #2AF50C);
+  numButtons[3] = new Button(100, 110, 40, 40, "9", #FFFDFC, #2AF50C);
+  numButtons[4] = new Button(20, 150, 40, 40, "4", #FFFDFC, #2AF50C);
+  numButtons[5] = new Button(60, 150, 40, 40, "5", #FFFDFC, #2AF50C);
+  numButtons[6] = new Button(100, 150, 40, 40, "6", #FFFDFC, #2AF50C);
+  numButtons[7] = new Button(20, 190, 40, 40, "1", #FFFDFC, #2AF50C);
+  numButtons[8] = new Button(60, 190, 40, 40, "2", #FFFDFC, #2AF50C);
+  numButtons[9] = new Button(100, 190, 40, 40, "3", #FFFDFC, #2AF50C);
+
+  opButtons[0] = new Button(20, 70, 40, 40, "AC", #898584, #2AF50C);
+  opButtons[1] = new Button(180, 230, 40, 40, "=", #F5A40C, #2AF50C);
+  opButtons[2] = new Button(60, 70, 40, 40, "+/-", #898584, #2AF50C);
+  opButtons[3] = new Button(100, 70, 40, 40, "%", #898584, #2AF50C);
+  opButtons[4] = new Button(140, 70, 40, 40, "/", #898584, #2AF50C);
+  opButtons[5] = new Button(180, 70, 40, 40, "", #F5A40C, #2AF50C);
+  opButtons[6] = new Button(140, 110, 40, 40, "*", #FFFDFC, #2AF50C);
+  opButtons[7] = new Button(180, 110, 40, 40, "", #F5A40C, #2AF50C);
+  opButtons[8] = new Button(140, 150, 40, 40, "-", #FFFDFC, #2AF50C);
+  opButtons[9] = new Button(180, 150, 40, 40, "", #F5A40C, #2AF50C);
+  opButtons[10] = new Button(140, 190, 40, 40, "+", #FFFDFC, #2AF50C);
+  opButtons[11] = new Button(180, 190, 40, 40, "", #F5A40C, #2AF50C);
+  opButtons[12] = new Button(100, 230, 40, 40, ".", #FFFDFC, #2AF50C);
+  opButtons[13] = new Button(140, 230, 40, 40, "3.14", #FFFDFC, #2AF50C);
+}
+
+
+
+void draw() {
+  background(0);
+  // show calculator display
+  updateDisplay();
+  //display and hover buttons
+  for (int i=0; i<numButtons.length; i++) {
+    numButtons[i].hover(mouseX, mouseY);
+    numButtons[i].display();
+  }
+  for (int i=0; i<opButtons.length; i++) {
+    opButtons[i].hover(mouseX, mouseY);
+    opButtons[i].display();
+  }
+}
+
+
+
+void updateDisplay() {
+
+  rectMode(CORNER);
+  fill(222);
+  rect(0, 0, width, 50);
+  fill(0);
+  textAlign(RIGHT);
+
+
+  if (dVal.length()<13) {
+    textSize(32);
+  } else if (dVal.length()<14) {
+    textSize(28);
+  } else if (dVal.length()<15) {
+    textSize(26);
+  } else if (dVal.length()<17) {
+    textSize(24);
+  } else if (dVal.length()<19) {
+    textSize(22);
+  } else if (dVal.length()<21) {
+    textSize(20);
+  } else if (dVal.length()<23) {
+    textSize(18);
+  } else if (dVal.length()<25) {
+    textSize(16);
+  } else {
+    textSize(14);
+  }
+  text(dVal, width-15, 50);
+  fill(127);
+  rectMode(CORNER);
+  rect(10, 250, width-20, 52);
+  textSize(9);
+  textAlign(LEFT);
+  fill(255);
+  text("L:" +l +"R:" +r + "Op:" + op, 15, 263);
+  text("Result:" +result +"Left:" +left, 15, 275);
+}
+
+void mouseReleased() {
+  println("L:" + l +"R:" +r + "Op:" + op);
+  println("Result:" +result +"Left:" +left);
+
+
+  for (int i=0; i<numButtons.length; i++) {
+    if (numButtons[i].over && dVal.length()<20) {
+      if (left) {
+        if (dVal.equals("0")) {
+          dVal = (numButtons[i].val);
+          l = float(dVal);
+        } else {
+          dVal += (numButtons[i].val);
+          l = float(dVal);
+        }
+      } else {
+        if (dVal.equals("0")) {
+          dVal = (numButtons[i].val);
+          r = float(dVal);
+        } else {
+          dVal += (numButtons[i].val);
+          r = float(dVal);
+        }
+      }
+    }
+  }
+
+
+
+  for (int i=0; i<opButtons.length; i++) {
+    if (opButtons[i].over && opButtons[i].val.equals("AC")) {
+      dVal = "0";
+      result =0.0;
+      left = true;
+      r = 0.0;
+      l = 0.0;
+      op = "";
+    } else if (opButtons[i].over && opButtons[i].val.equals("+")) {
+      if (!left) {
+        performCalc();
+      } else {
+        op = "+";
+        left = false;
+        dVal= "0";
+      }
+    } else if (opButtons[i].over && opButtons[i].val.equals("=")) {
+      performCalc();
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void performCalc() {
+  if (op.equals("+")) {
+    result = l + r;
+  } else if (op.equals("-")) {
+    result = l - r;
+  } else if (op.equals("*")) {
+    result = l * r;
+  } else if (op.equals("/")) {
+    result = l / r;
+  }
+  l = result;
+  dVal = str(result);
+  left = true;
+}
+
+class Button {
+  // member variables
+  int x, y, w, h;
+  String val;
+  boolean over;
+  color c1, c2;
+
+  // constructor
+  Button(int x, int y, int w, int h, String val, color c1, color c2) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.val = val;
+    this.c1 = c1;
+    this.c2 = c2;
+  }
+
+  // Display the button
+  void display() {
+    if (over) {
+      fill(c2);
+    } else {
+      fill(c1);
+    }
+    rectMode(CENTER);
+    rect(x, y, w, h);
+    textAlign(CENTER);
+    fill(0);
+    textSize(14);
+    text(val, x, y+5);
+  }
+
+  // give behavoir
+  void hover(int tempX, int tempY) {
+    over = tempX>x && tempX<x+w  && tempY>y  && tempY<y+h;
+  }
+}
