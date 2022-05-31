@@ -16,12 +16,12 @@ OOP solution for a collisoion based 2d shooter
 * Description: this generates lines of different colors and thickness on the screen to make a cool visual.
 
 ### Cars 
-* ![cars screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.26.43%20PM.png)
+* ![cars screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.26.43%20PM.png?raw=true)
 * [cars code](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/Text/igjuyg%20text.txt)
 * Description: this generates a cars to drive both ways across the screen
 
 ### Calculator
-* ![calculator screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.43.55%20PM.png)
+* ![calculator screenshot](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/images/Screen%20Shot%202022-05-27%20at%2012.43.55%20PM.png?raw=true)
 * [calculator code](https://github.com/coreyboulds/programming-portfolio/blob/gh-pages/Text/zxcvhjkl%20text.txt)
 * Description: this makes a functioning calculator. 
 
