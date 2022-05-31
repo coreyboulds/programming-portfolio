@@ -1,5 +1,8 @@
 # Corey Boulds' Programming Portfolio 2022
-Computer Programming 1 which focused on processing and Java.
+Computer Programming 1 which focused on processing and Java. 
+
+Email: coryboulds@gmail.com
+phone#: 385-415-4119
 
 ## Processing projects 
 
